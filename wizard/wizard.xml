@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="add-module" name="roma-mail-wizard">
+	<property environment="env" />
+	<property name="roma.home" value="${env.ROMA_HOME}" />
+	<property name="project.new-ioc-path" value="src/META-INF/components" />
+
+	<import file="${roma.home}/common/wizard/base-wizard.xml" />
+
+	<xmlcatalog id="jdo-dtd">
+		<dtd publicId="-//Sun Microsystems, Inc.//DTD Java Data Objects Metadata 2.0//EN" location="${roma.home}/modules/aspect-persistence-jpox/wizard/jdo_2_0.dtd" />
+	</xmlcatalog>
+
+	<target name="add-module" depends="load-project-info">
+		<property name="module.ioc-file" value="applicationContext-mail.xml" />
+		<antcall target="copy-module-ioc-file" />
+
+	</target>
+	<target name="update-module-v2.0.0" depends="load-project-info">
+		<antcall target="update-module-libs" />
+	</target>
+</project>
