@@ -9,6 +9,9 @@ public class ServerConfiguration {
 	private String											imap;
 	private Map<String, Authentication>	authentications;
 	private boolean											debug;
+	private String											smtpPort;
+	private String											pop3Port;
+	private String											imapPort;
 
 	public String getPop3() {
 		return pop3;
@@ -48,6 +51,30 @@ public class ServerConfiguration {
 
 	public void setAuthentications(Map<String, Authentication> authentications) {
 		this.authentications = authentications;
+	}
+
+	public String getSmtpPort() {
+		return smtpPort;
+	}
+
+	public void setSmtpPort(String smtpPort) {
+		this.smtpPort = smtpPort;
+	}
+
+	public String getPop3Port() {
+		return pop3Port;
+	}
+
+	public void setPop3Port(String pop3Port) {
+		this.pop3Port = pop3Port;
+	}
+
+	public String getImapPort() {
+		return imapPort;
+	}
+
+	public void setImapPort(String imapPort) {
+		this.imapPort = imapPort;
 	}
 
 }

@@ -48,6 +48,9 @@ public abstract class JavaMailAbstract {
 	private static final String	SMTP_HOST						= "mail.smtp.host";
 	private static final String	SMTP_AUTHORIZATION	= "mail.smtp.auth";
 	private static final String	SMTP_HOST_UNKNOWN		= "Unknown SMTP host";
+	private static final Object	SMTP_PORT						= "mail.smtp.port";
+	private static final Object	POP3_PORT						= "mail.pop3.port";
+	private static final Object	IMAP_PORT						= "mail.imap.port";
 
 	protected MimeMessage				message							= null;
 	protected MimeMultipart			mmp									= null;
@@ -194,11 +197,18 @@ public abstract class JavaMailAbstract {
 		Session session = null;
 		Properties props = new Properties();
 		props.put(SMTP_HOST, configuration.getSmtp());
-
+		if (configuration.getSmtpPort() != null) {
+			props.put(SMTP_PORT, configuration.getSmtpPort());
+		}
+		if (configuration.getPop3Port() != null) {
+			props.put(POP3_PORT, configuration.getPop3Port());
+		}
+		if (configuration.getImapPort() != null) {
+			props.put(IMAP_PORT, configuration.getImapPort());
+		}
 		if (authenticationKey != null) {
 			Authentication authentication = configuration.getAuthentications().get(authenticationKey);
 			SMTPAuthenticator authenticator = new SMTPAuthenticator(authentication.getUserid(), authentication.getPassword());
-
 			props.put(SMTP_AUTHORIZATION, true);
 			session = Session.getDefaultInstance(props, authenticator);
 		} else {
