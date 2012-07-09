@@ -55,6 +55,10 @@ public abstract class JavaMailAbstract {
 	protected MimeMessage				message							= null;
 	protected MimeMultipart			mmp									= null;
 
+	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc, List<String> attachments, String authentication) {
+		sendMail(subject, text, from, to, cc, bcc, attachments, authentication, true);
+	}
+
 	/**
 	 * 
 	 * @param subject
@@ -66,8 +70,7 @@ public abstract class JavaMailAbstract {
 	 * @param attachments
 	 * @param defaultAuthentication
 	 */
-	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc,
-			List<String> attachments, String authentication) {
+	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc, List<String> attachments, String authentication, boolean silent) {
 		try {
 			inizializeContainer(authentication);
 
@@ -85,6 +88,9 @@ public abstract class JavaMailAbstract {
 			Transport.send(message);
 
 		} catch (MessagingException mse) {
+			if (!silent) {
+				throw new MailException(mse);
+			}
 			if (mse.getMessage().contains(SMTP_HOST_UNKNOWN)) {
 				throw new MailException(SMTP_HOST_UNKNOWN);
 			} else {
@@ -96,9 +102,13 @@ public abstract class JavaMailAbstract {
 
 	}
 
+	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc, String authentication, List<? extends AttachmentElement> attachments) {
+		sendMail(subject, text, from, to, cc, bcc, authentication, attachments, true);
+	}
+
 	@SuppressWarnings("rawtypes")
-	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc,
-			String authentication, List<? extends AttachmentElement> attachments) {
+	public void sendMail(String subject, String text, String from, Object to, List<String> cc, List<String> bcc, String authentication,
+			List<? extends AttachmentElement> attachments, boolean silent) {
 		try {
 			inizializeContainer(authentication);
 
@@ -116,6 +126,9 @@ public abstract class JavaMailAbstract {
 			Transport.send(message);
 
 		} catch (MessagingException mse) {
+			if (!silent) {
+				throw new MailException(mse);
+			}
 			if (mse.getMessage().contains(SMTP_HOST_UNKNOWN)) {
 				throw new MailException(SMTP_HOST_UNKNOWN);
 			} else {
@@ -136,9 +149,15 @@ public abstract class JavaMailAbstract {
 	 * @param defaultAuthentication
 	 */
 	public void sendMail(String subject, String text, String from, Object to, String authentication) {
-		sendMail(subject, text, from, to, null, null, null, authentication);
+		sendMail(subject, text, from, to, null, null, null, authentication, true);
 	}
 
+	
+	public void sendMail(String subject, String text, String from, Object to, String authentication, boolean silent) {
+		sendMail(subject, text, from, to, null, null, null, authentication, silent);
+	}
+
+	
 	/**
 	 * 
 	 * @param subject
@@ -149,13 +168,33 @@ public abstract class JavaMailAbstract {
 	 * @param defaultAuthentication
 	 */
 	public void sendMail(String subject, String text, String from, List<String> to, List<String> attachments, String authentication) {
-		sendMail(subject, text, from, to, null, null, attachments, authentication);
+		sendMail(subject, text, from, to, null, null, attachments, authentication, true);
+	}
+
+	/**
+	 * 
+	 * @param subject
+	 * @param text
+	 * @param from
+	 * @param to
+	 * @param attachments
+	 * @param authentication
+	 * @param silent
+	 *          if true does not throw exception
+	 */
+	public void sendMail(String subject, String text, String from, List<String> to, List<String> attachments, String authentication, boolean silent) {
+		sendMail(subject, text, from, to, null, null, attachments, authentication, silent);
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void sendMail(String subject, String text, String from, List<String> to, String authentication,
-			List<? extends AttachmentElement> attachments) {
+	public void sendMail(String subject, String text, String from, List<String> to, String authentication, List<? extends AttachmentElement> attachments) {
 		sendMail(subject, text, from, to, null, null, authentication, attachments);
+	}
+	
+
+	@SuppressWarnings("rawtypes")
+	public void sendMail(String subject, String text, String from, List<String> to, String authentication, List<? extends AttachmentElement> attachments, boolean silent) {
+		sendMail(subject, text, from, to, null, null, authentication, attachments, silent);
 	}
 
 	/**
@@ -168,11 +207,16 @@ public abstract class JavaMailAbstract {
 	 * @param attachements
 	 * @param defaultAuthentication
 	 */
-	public void sendMail(String subject, String text, String from, List<String> to, List<String> cc, List<String> attachements,
-			String authentication) {
+	public void sendMail(String subject, String text, String from, List<String> to, List<String> cc, List<String> attachements, String authentication) {
 		sendMail(subject, text, from, to, cc, null, attachements, authentication);
 	}
 
+
+	public void sendMail(String subject, String text, String from, List<String> to, List<String> cc, List<String> attachements, String authentication, boolean silent) {
+		sendMail(subject, text, from, to, cc, null, attachements, authentication, silent);
+	}
+	
+	
 	/**
 	 * 
 	 * @param msg
