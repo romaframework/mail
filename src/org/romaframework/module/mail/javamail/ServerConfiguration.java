@@ -12,6 +12,7 @@ public class ServerConfiguration {
 	private String											smtpPort;
 	private String											pop3Port;
 	private String											imapPort;
+	private Boolean											TTLEnabled;
 
 	public String getPop3() {
 		return pop3;
@@ -75,6 +76,14 @@ public class ServerConfiguration {
 
 	public void setImapPort(String imapPort) {
 		this.imapPort = imapPort;
+	}
+
+	public Boolean getTTLEnabled() {
+		return TTLEnabled;
+	}
+
+	public void setTTLEnabled(Boolean tTLEnabled) {
+		TTLEnabled = tTLEnabled;
 	}
 
 }
