@@ -51,6 +51,7 @@ public abstract class JavaMailAbstract {
 	private static final Object	SMTP_PORT						= "mail.smtp.port";
 	private static final Object	POP3_PORT						= "mail.pop3.port";
 	private static final Object	IMAP_PORT						= "mail.imap.port";
+	private static final Object TTL_ENABLED						= "mail.smtp.starttls.enable";
 
 	protected MimeMessage				message							= null;
 	protected MimeMultipart			mmp									= null;
@@ -249,6 +250,9 @@ public abstract class JavaMailAbstract {
 		}
 		if (configuration.getImapPort() != null) {
 			props.put(IMAP_PORT, configuration.getImapPort());
+		}
+		if (configuration.getTTLEnabled()!=null){
+			props.put(TTL_ENABLED, configuration.getTTLEnabled());
 		}
 		if (authenticationKey != null) {
 			Authentication authentication = configuration.getAuthentications().get(authenticationKey);
